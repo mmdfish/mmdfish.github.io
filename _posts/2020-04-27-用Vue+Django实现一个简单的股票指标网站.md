@@ -2,7 +2,7 @@
 layout:     post
 title:      用Vue+Django实现一个简单的股票指标网站
 subtitle:   
-date:       2020-04-28
+date:       2020-04-27
 author:     Mmdfish
 header-img: 
 catalog: true
