@@ -112,7 +112,7 @@ scope.column.property代表当前列的值，scope.row[scope.column.property]是
       :label="item.name"
     >
       <template slot-scope="scope">
-        <span>{{scope.row[scope.column.property]}}</span>
+        <span>{{ "{{scope.row[scope.column.property]"}} }}</span>
       </template>
     </el-table-column>
   </el-table>
