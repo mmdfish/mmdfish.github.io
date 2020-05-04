@@ -23,6 +23,7 @@ Vue ElementUI el-table
 [el-table](https://element.eleme.cn/#/zh-CN/component/table)的文档里有很多的例子可以参考，这里记录一些我碰到的问题
 
 - 固定表头
+
 文档里的方法是用
 
 ```
@@ -54,6 +55,7 @@ export default {
 ```
 
 - 固定列
+
 在对应的el-table-column 设置fixed属性
 
 ```
@@ -66,6 +68,7 @@ export default {
 ```
 
 - 内容过长被隐藏时显示tooltip
+
 设置show-overflow-tooltip
 
 ```
@@ -73,6 +76,7 @@ export default {
 ```
 
 - row-click怎么获取参数
+
 row-click 调用的方法可以有三个默认的参数 row，column和event，可以从row，column里拿到想要的数据
 
 ```
@@ -94,6 +98,7 @@ export default {
 ```
 
 - 用v-for动态列渲染
+
 如果数据的props比较多，或者想动态生成列，那可以用v-for和slot-scope来实现。
 stockSpecData就是所有的spec json数据，titleData是所有想显示的列名，具体见源码。
 scope.column.property代表当前列的值，scope.row[scope.column.property]是当前单元格的值。
