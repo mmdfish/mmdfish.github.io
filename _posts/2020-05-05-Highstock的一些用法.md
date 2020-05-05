@@ -27,7 +27,7 @@ HighCharts Highstock candlestick
 [Highstock ](https://www.highcharts.com.cn/docs/highstock)
 是基于 Highcharts 创建的专门用于股票图及大数据了时间轴图表，也就是意味着 Highstock 包含 Highcharts 所有功能，只是在 Highcharts 的基础上增加了新的功能，另外 Highstock 支持 K线图、蜡烛图等股票金融专用图表。我这里主要是实现K线图(蜡烛图)。
 
-#HighStock在vue里应用
+# HighStock在vue里应用
 
 highcharts官方开发了Vue的扩展包，[highcharts-vue](https://www.highcharts.com.cn/docs/highcharts-vue)，Highcharts-Vue 扩展包默认使用 chart 的构造函数，使用 stockChart ，只需要导入 stock 模块，并在组件元素中使用 :constructor-type 参数。在data()中定义好chartOptions，传给 :options参数。
 
@@ -49,11 +49,12 @@ data() {
     }
 ```
 
-#HighStock的汉化
+# HighStock的汉化
 
 HighStock 默认是英文的，如果想改成中文的话，需要用Highcharts.setOptions() 方法来定义一些将在所有图表上设置的全局参数，语言是 lang。最好在运用程序的主文件中(main.js)使用它，并且在这之前需要导入 Highcharts 包。
 这里我们把月和星期几改成中文了。
 修改前
+
 ![](https://upload-images.jianshu.io/upload_images/18184331-81c715ef774d36e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ```
@@ -71,6 +72,7 @@ Highcharts.setOptions({
 ```
 
 修改后
+
 ![](https://upload-images.jianshu.io/upload_images/18184331-62f6fa74e4b1ad20.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 当然lang只能修改一部分内容。比如图中的open high low close只能通过tooltips来修改。这里我没有修改，可以参考[highstock#tooltip](https://api.highcharts.com.cn/highstock#tooltip)里的demo。
@@ -94,7 +96,7 @@ data: [
 ]
 ```
 
-#设置数据
+# 设置数据
 
 在实际项目中我们的数据来源于Django的后端返回的json，这里为了方便展示，我把数据放在了stockData.js文件中。
 六个数据分别为时间戳, 开盘价, 最高价, 最低价, 收盘价和成交量。
@@ -218,7 +220,9 @@ K线图和成交量柱状图都可以设置maxPointWidth，这里可能是因为
 # 加入空数据
 
 继续上一个问题，比如某只股票新上市刚一天或几天，就算我们设置minRange为30，实际数据并没有30天的数据，以我们stockdata.js里的data2为例，只有五天的数据，间隔还是很大。
+
 ![](https://upload-images.jianshu.io/upload_images/18184331-8ccdb64bf02a22b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 有没有办法左对齐，并让他们间隔不那么宽呢，这里我也找了很久，最后发现可以给数据里加入空的数据来解决这个问题。判断数据量是否不够20天，不够的话向后补齐，注意y的数据一定用null，如果给0的话鼠标悬浮上去还是会有显示。
 
 ```
@@ -243,13 +247,16 @@ if(dataLength < 20) {
       }
 ```
 显示效果
+
 ![](https://upload-images.jianshu.io/upload_images/18184331-1798c389543694b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 # y轴显示区间和刻度
 
 highstock对于输入数据会有默认处理，就是默认计算刻度间隔和显示区间，比如下图中，highstock根据股价计算出最后显示区间为6-15，一共4个刻度，每个刻度间隔为3。但是看上去效果就是K线图集中在9-12这个区间，其他两个区间完全空出来，非常浪费。
+
 ![](https://upload-images.jianshu.io/upload_images/18184331-2ef10bd667e2f4a2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 解决方法，设置[chartOptions.yAxis.tickPositioner](https://api.highcharts.com.cn/highstock#yAxis.tickPositioner)
 函数，方法可以拿到dataMax和dataMin，然后根据自己的需求计算，这里我设置区间增长为五分之一的max-min，然后根据增长大于1还是小于1分别处理。
 
@@ -283,6 +290,7 @@ chartOptions: {
 ```
 
 显示效果，利用率高了很多。
+
 ![](https://upload-images.jianshu.io/upload_images/18184331-557d2a78be25d083.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 # ma日均线
@@ -441,6 +449,7 @@ yAxis: [
 ```
 
 显示效果。这里我们大盘数据用的假数据，设置的是股票价格*200-random(100)。红线就是大盘的走势。拖动滚动轴可以看图里区间的第一天一直是和股票重合的。
+
 ![](https://upload-images.jianshu.io/upload_images/18184331-b417dfe493c823b2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 # 动态设置显示某条线
